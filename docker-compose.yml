@@ -1,0 +1,19 @@
+version: '3'
+services:
+  auth-service:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: monstro2971444
+      MYSQL_DATABASE: talesludos
+    ports:
+      - "3307:3307"

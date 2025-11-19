@@ -1,0 +1,41 @@
+{
+  "name": "talesludos-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "setup": "node copy-base-game.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all",
+    "reset-db": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "archiver": "^7.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "dotenv-safe": "^9.1.0",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.0",
+    "he": "^1.2.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "1.4.4",
+    "mysql2": "^3.14.1",
+    "nodemailer": "^6.10.1",
+    "nodemon": "^3.1.7",
+    "rimraf": "^6.0.1",
+    "sequelize": "^6.37.3",
+    "talesludos-api": "file:"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.3"
+  }
+}
