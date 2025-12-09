@@ -13,35 +13,34 @@ const router = express.Router();
 // Rotas Autenticação
 router.post('/auth/register', UserController.register);
 router.post('/auth/login', AuthController.login);
-router.post('/auth/forgotpassword', AuthController.forgotPassword);
-router.post('/auth/resetpassword/', AuthController.resetPassword);
+router.post('/auth/forgot-password', AuthController.forgotPassword);
+router.post('/auth/reset-password/', AuthController.resetPassword);
 router.post('/auth/logout', verifyToken, AuthController.logout);
 
 // Rotas de Game
-router.get('/game/edit/:id', verifyToken, GameController.edit);
-router.put('/game/update/:id', verifyToken, GameController.update);
+router.get('/journeys/:journeyId/games', verifyToken, GameController.edit);
+router.put('/journeys/:journeyId/games', verifyToken, GameController.update);
 
 // Rotas de Journey
-router.get('/journey/:id/:fileName', JourneyController.sendImage);
-router.get('/journey/listall', JourneyController.listAll);
-router.get('/journey/view/:id', JourneyController.view);
-router.get('/journey/download/:user_id/:id', JourneyController.download);
-router.get('/journey/index', verifyToken, JourneyController.index);
-router.get('/journey/edit/:id', verifyToken, JourneyController.edit);
-router.post('/journey/store', 
+router.get('/users/:userId/files/:fileName', JourneyController.sendImage);
+router.get('/journeys', JourneyController.listAll);
+router.get('/journeys/:journeyId', JourneyController.view);
+router.get('/users/:userId/journey-exports/:journeyId', JourneyController.download);
+router.get('/users/:userId/journeys', verifyToken, UserController.index);
+router.post('/journeys', 
     verifyToken, 
     upload.single('imageData'),
     JourneyController.store
 );
-router.post('/journey/update/:id', 
+router.put('/journeys/:journeyId', 
   verifyToken, 
   upload.single('imageData'),
   JourneyController.update
 );
-router.delete('/journey/destroy/:id', verifyToken, JourneyController.destroy);
+router.delete('/journeys/:journeyId', verifyToken, JourneyController.destroy);
 
 //Outras
 router.get('/areas', AreaController.index);
-router.post('/submit', ContactController.submit);
+router.post('/contacts', ContactController.submit);
 
 module.exports = router;

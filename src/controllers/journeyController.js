@@ -5,23 +5,6 @@ const fs = require('fs');
 const path = require('path');
 
 class JourneyController {
-    async index(req, res) {
-        try {
-            const userId = req.user.id;
-            const { page = 1, area } = req.query;
-
-            const journeys = await JourneyService.getUserJourneys(userId, {
-                page: parseInt(page),
-                perPage: 3
-            });
-            res.status(200).json(journeys);
-        } catch (error) {
-            res.status(500).json({
-                message: 'Erro ao carregar jornadas',
-                error: error.message
-            });
-        }
-    }
 
     async listAll(req, res) {
         try {
@@ -44,7 +27,7 @@ class JourneyController {
 
     async view(req, res) {
         try {
-            const { id } = req.params;
+            const id = req.params.journeyId;
             const journey = await JourneyService.getJourneyById(id);
 
             if (!journey) {
@@ -62,9 +45,9 @@ class JourneyController {
 
     async download(req, res, next) {
         try {
-            const { user_id, id } = req.params;
-            const filePath = await JourneyService.prepareDownload(user_id, id);
-            const filename = `jornada-${id}.zip`;
+            const { userId, journeyId } = req.params;
+            const filePath = await JourneyService.prepareDownload(userId, journeyId);
+            const filename = `jornada-${journeyId}.zip`;
 
             res.setHeader('Content-Type', 'application/zip');
             res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
@@ -119,7 +102,7 @@ class JourneyController {
 
     async update(req, res) {
         try {
-            const { id } = req.params;
+            const id = req.params.journeyId;
             const userId = req.user.id;
 
             const journeyData = {
@@ -166,7 +149,7 @@ class JourneyController {
 
     async destroy(req, res) {
         try {
-            const { id } = req.params;
+            const id = req.params.journeyId;
             await JourneyService.deleteJourney(id);
 
             res.status(204).send();
@@ -180,10 +163,10 @@ class JourneyController {
 
     async sendImage(req, res) {
         try {
-            const userId = String(req.params.userId || req.params.id || '');
+            const userId = req.params.userId;
             const fileName = String(req.params.fileName || req.params.file || '');
 
-            if (!/^\d+$/.test(userId)) {
+            if (!userId) {
                 return res.status(400).json({ message: 'userId inválido' });
             }
             if (!fileName || fileName.includes('..') || path.isAbsolute(fileName)) {

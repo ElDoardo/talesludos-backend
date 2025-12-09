@@ -3,7 +3,7 @@ const { GameService } = require('../services');
 const GameController = {
     async edit(req, res) {
         try {
-            const { id } = req.params; // id = journeyId
+            const id = req.params.journeyId;
             const userId = req.user.id;
 
             const gameData = await GameService.getGameForEdit(id, userId);
@@ -22,7 +22,7 @@ const GameController = {
     },
     async update(req, res) {
         try {
-            const { id } = req.params; // id = journeyId
+            const id = req.params.journeyId;
             const userId = req.user.id;
             const gameData = req.body;
             
